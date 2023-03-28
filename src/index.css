@@ -2,10 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Oswald';
+    src: url("./fonts/Oswald-Regular.ttf");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url("./fonts/Oswald-Bold.ttf");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vollkorn';
+    src: url("./fonts/Vollkorn-regular.ttf");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vollkorn';
+    src: url("./fonts/Vollkorn-bold.ttf");
+    font-weight: 700;
+    font-style: normal;
+}
+
 body{
-    @apply text-secondary
+    @apply text-secondary font-vollkorn;
+}
+
+h1,h2,h3,h4 {
+    @apply font-oswald font-bold uppercase;
+}
+
+h1 {
+    @apply text-4xl;
+}
+
+h2 {
+    @apply text-3xl;
+}
+
+h3 {
+    @apply text-2xl;
+}
+
+h4 {
+    @apply text-xl;
 }
 
 .container{
-  @apply  max-w-screen-xl px-4
+  @apply  max-w-screen-xl px-4 mx-auto;
+}
+
+.smooth-animation {
+    @apply transition duration-500 ease-in-out;
+}
+
+.btn-primary {
+    @apply block w-full text-xl font-bold font-oswald text-tertiary bg-gradient-to-r from-primary to-secondary rounded py-3.5 px-2.5;
+}
+
+.btn-primary:hover {
+    @apply from-secondary to-primary text-secondary;
+}
+
+input {
+    @apply w-full border border-primary rounded text-primary p-5 pl-14;
+}
+
+input::placeholder {
+    @apply text-primary italic font-bold;
+}
+
+.svg-input {
+    @apply w-8 h-8 absolute left-5 inset-y-0 m-auto text-primary;
+}
+
+.errors-form {
+    @apply text-error font-bold;
+}
+
+.link {
+    @apply text-primary underline underline-offset-4;
+}
+
+.link:hover {
+    @apply text-secondary;
 }
