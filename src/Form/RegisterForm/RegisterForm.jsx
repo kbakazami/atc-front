@@ -1,17 +1,44 @@
 import {UserIcon, AtSymbolIcon, PhoneIcon, LockClosedIcon} from "@heroicons/react/24/outline";
 import { useForm } from "react-hook-form";
 import {GirlLocalisation, GuyPlanning} from "../../Components/SvgComponents/SvgComponents";
+import * as yup from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {createUser} from "../../Services/user.js";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function RegisterForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => {
+    const navigate = useNavigate();
+
+    const validationSchema = yup.object().shape({
+        last_name: yup.string().required("Veuillez saisir un nom"),
+        first_name: yup.string().required("Veuillez saisir un prénom"),
+        email: yup.string().email("Veuillez saisir un email valide").required("Veuillez saisir un email"),
+        telephone_number: yup.string().matches(/^0[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/gm, "Veuillez saisir un numéro de téléphone valide").required("Veuillez saisir un numéro de téléphone"),
+        password: yup.string().required("Veuillez saisir un mot de passe"),
+    });
+
+    const initialValues = {
+        last_name: "",
+        first_name: "",
+        email: "",
+        telephone_number: "",
+        password: "",
+    }
+
+    const { handleSubmit, register, formState: { errors, isSubmitting }, setError, clearErrors } = useForm({
+        initialValues,
+        resolver: yupResolver(validationSchema),
+    });
+
+    const submit = handleSubmit(async(user) => {
         try {
-            console.log(data.last_name, data.first_name, data.email, data.telephone_number, data.password);
-            console.log(data.password, data.password_confirmation);
-        }catch (e) {
-            console.log(e);
+            clearErrors();
+            await createUser(user);
+            navigate("/login")
+        }catch (message) {
+            setError("generic", {type: "generic", message})
         }
-    };
+    });
 
     return(
         <div className={"relative my-10 px-4"}>
@@ -22,9 +49,9 @@ export default function RegisterForm() {
                     <p className={"italic font-bold"}>
                         Aucun problème, vous pouvez vous <span className={"text-primary"}>connecter !</span>
                     </p>
-                    <a href={"/"} className={"btn-primary smooth-animation"}>Se connecter</a>
+                    <Link to={"/login"} className={"btn-primary smooth-animation"}>Se connecter</Link>
                 </div>
-                <form id={"form-register"} className={"mt-8 flex flex-col gap-y-2.5"} onSubmit={handleSubmit(onSubmit)}>
+                <form id={"form-register"} className={"mt-8 flex flex-col gap-y-2.5"} onSubmit={submit}>
                     <legend>
                         <h2>Inscription</h2>
                         <p className={"italic font-bold mt-2.5 mb-2.5"}>
@@ -81,7 +108,8 @@ export default function RegisterForm() {
                     {/*    </div>*/}
                     {/*    {errors.password_confirmation && <p className="errors-form">Le mot de passe ne correspond pas</p>}*/}
                     {/*</div>*/}
-                    <button className={"btn-primary smooth-animation"} type="submit">
+                    {errors.generic && <p className="errors-form">{errors.generic.message}</p>}
+                    <button disabled={isSubmitting} className={"btn-primary smooth-animation"} type="submit">
                         S'inscrire
                     </button>
                 </form>
