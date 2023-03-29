@@ -26,7 +26,7 @@ function Navbar() {
                     <Bars3Icon className={"w-12 h-12 text-primary"} />
                 </div>
                 {isActive &&
-                <div className={"absolute border-2 border-primary rounded px-4 py-2 bg-white z-10"}>
+                <div className={"absolute border-2 border-primary rounded px-4 py-2 bg-white z-20"}>
                     <ul>
                         <li>
                             <a className={"hover:text-primary smooth-animation"} href="#">Catalogue</a>
@@ -37,7 +37,9 @@ function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <a className={"hover:text-primary smooth-animation"} href="#">Connexion</a>
+                            <Link to={"/login"}>
+                            <span className={"hover:text-primary smooth-animation"}>Connexion</span>
+                            </Link>
                         </li>
                     </ul>
                 </div>

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import {GirlLocalisation, GuyPlanning} from "../../Components/SvgComponents/SvgComponents";
 
 export default function LoginForm() {
-    const { login, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
         try {
             console.log(data.email, data.password);

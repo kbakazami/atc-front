@@ -63,11 +63,11 @@ h4 {
 }
 
 .btn-primary {
-    @apply block w-full text-xl font-bold font-oswald text-tertiary bg-gradient-to-r from-primary to-secondary rounded py-3.5 px-2.5;
+    @apply block w-full text-xl font-bold font-oswald text-white bg-gradient-to-r from-primary to-tertiary rounded py-3.5 px-2.5;
 }
 
 .btn-primary:hover {
-    @apply from-secondary to-primary text-secondary;
+    @apply from-tertiary to-primary;
 }
 
 input {
