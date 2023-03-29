@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import SearchBar from "../SearchBar/SearchBar";
 import {useState} from "react";
 import {Bars3Icon, UserIcon} from "@heroicons/react/20/solid/index.js";
+import {Link} from "react-router-dom";
 
 function Navbar() {
 
@@ -25,16 +26,20 @@ function Navbar() {
                     <Bars3Icon className={"w-12 h-12 text-primary"} />
                 </div>
                 {isActive &&
-                <div className={"absolute border-2 border-primary rounded px-4 py-2 bg-white z-10"}>
+                <div className={"absolute border-2 border-primary rounded px-4 py-2 bg-white z-20"}>
                     <ul>
                         <li>
-                            <a className={"hover:text-primary transition duration-300 ease-in-out"} href="#">Catalogue</a>
+                            <a className={"hover:text-primary smooth-animation"} href="#">Catalogue</a>
                         </li>
                         <li>
-                            <a className={"hover:text-primary transition duration-300 ease-in-out"} href="#">Inscription</a>
+                            <Link to={"/register"}>
+                                <span className={"hover:text-primary smooth-animation"}>Inscription</span>
+                            </Link>
                         </li>
                         <li>
-                            <a className={"hover:text-primary transition duration-300 ease-in-out"} href="#">Connexion</a>
+                            <Link to={"/login"}>
+                            <span className={"hover:text-primary smooth-animation"}>Connexion</span>
+                            </Link>
                         </li>
                     </ul>
                 </div>
