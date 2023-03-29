@@ -21,8 +21,16 @@ export const data = [
     {
         "id": 2,
         "user_id": 2,
-        "review_id": 2,
-        "address_id": 2,
+        "review": {
+            "average": 5.00
+        },
+        "address": {
+            "id":1,
+            "country":"France",
+            "city":"Paris",
+            "zip_code":"91000",
+            "street":"rue Jean du jardin",
+        },
         "price": 100,
         "surface":48,
         "duration":"05-06 avril",
