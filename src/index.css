@@ -70,12 +70,30 @@ h4 {
     @apply from-tertiary to-primary;
 }
 
-input {
-    @apply w-full border border-primary rounded text-primary p-5 pl-14;
+#form-office input,
+#form-office textarea,
+#form-office select{
+    @apply pl-5;
 }
 
-input::placeholder {
+input, textarea, select {
+    @apply w-full border border-primary rounded text-primary p-5 pl-14;
+}
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+    @apply outline-tertiary;
+}
+
+input::placeholder, textarea::placeholder, select {
     @apply text-primary italic font-bold;
+}
+
+select {
+    background-position: right 1.25rem center;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2360a7bf' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    appearance: none;
+    @apply text-primary
 }
 
 .svg-input {
@@ -92,4 +110,8 @@ input::placeholder {
 
 .link:hover {
     @apply text-secondary;
+}
+
+textarea {
+    resize: none;
 }
