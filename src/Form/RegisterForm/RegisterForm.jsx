@@ -6,10 +6,7 @@ export default function RegisterForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
         try {
-            if(data.password === data.password_confirmation)
-            {
-                console.log(data.last_name, data.first_name, data.email, data.telephone_number, data.password);
-            }
+            console.log(data.last_name, data.first_name, data.email, data.telephone_number, data.password);
             console.log(data.password, data.password_confirmation);
         }catch (e) {
             console.log(e);
@@ -77,13 +74,13 @@ export default function RegisterForm() {
                         </div>
                         {errors.password && <p className="errors-form">Veuillez saisir un mot de passe</p>}
                     </div>
-                    <div className={"flex flex-col gap-y-2"}>
-                        <div className={"relative"}>
-                            <input type="password" placeholder="Mot de passe" {...register("password_confirmation", {required: true})} />
-                            <LockClosedIcon className={"svg-input"}/>
-                        </div>
-                        {errors.password_confirmation && <p className="errors-form">Le mot de passe ne correspond pas</p>}
-                    </div>
+                    {/*<div className={"flex flex-col gap-y-2"}>*/}
+                    {/*    <div className={"relative"}>*/}
+                    {/*        <input type="password" placeholder="Confirmation du mot de passe" {...register("password_confirmation", {required: true})} />*/}
+                    {/*        <LockClosedIcon className={"svg-input"}/>*/}
+                    {/*    </div>*/}
+                    {/*    {errors.password_confirmation && <p className="errors-form">Le mot de passe ne correspond pas</p>}*/}
+                    {/*</div>*/}
                     <button className={"btn-primary smooth-animation"} type="submit">
                         S'inscrire
                     </button>
