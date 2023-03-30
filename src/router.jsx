@@ -3,7 +3,9 @@ import {createBrowserRouter} from "react-router-dom";
 import App from "./App.jsx";
 import ErrorPage from "./Pages/ErrorPage/ErrorPage.jsx";
 import {rootLoader} from "./Loaders/rootLoader.js";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.jsx";
 
+const HomePage = lazy(() => import("./Pages/HomePage/HomePage.jsx"));
 const LoginForm = lazy(() => import("./Form/LoginForm/LoginForm.jsx"));
 const RegisterForm = lazy(() => import("./Form/RegisterForm/RegisterForm.jsx"));
 const Profile = lazy(() => import("./Pages/Profile/Profile.jsx"));
@@ -12,20 +14,28 @@ export const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
+        loader: rootLoader,
         errorElement: <ErrorPage />,
-        // loader: rootLoader,
         children: [
             {
-                path: "/login",
+              index: true,
+                element: <HomePage />,
+            },
+            {
+                path: "login",
                 element: <LoginForm />,
             },
             {
-                path: "/register",
+                path: "register",
                 element: <RegisterForm />,
             },
             {
-                path: "/profile",
-                element: <Profile />,
+                path: "profile",
+                element:(
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                ),
             }
         ],
     },

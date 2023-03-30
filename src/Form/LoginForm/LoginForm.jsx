@@ -4,9 +4,12 @@ import {GirlLocalisation, GuyPlanning} from "../../Components/SvgComponents/SvgC
 import {Link, useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {login} from "../../Services/auth.js";
+import {AuthContext} from "../../Context/index.js";
+import {useContext} from "react";
 
 export default function LoginForm() {
+    const {auth} = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const validationSchema = yup.object().shape({
@@ -19,15 +22,14 @@ export default function LoginForm() {
         password: "",
     }
 
-
-    const {  handleSubmit, register, formState: { errors,isSubmitting }, setError, clearErrors } = useForm({
+    const {  handleSubmit, register, formState: { errors, isSubmitting }, setError, clearErrors } = useForm({
         initialValues,
         resolver: yupResolver(validationSchema),
     });
     const submit = handleSubmit(async(credentials) => {
         try {
             clearErrors();
-            await login(credentials);
+            await auth(credentials);
             navigate("/profile")
         }catch (message) {
             setError("generic", {type: "generic", message})

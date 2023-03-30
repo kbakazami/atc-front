@@ -1,12 +1,12 @@
 import logo from './img/logo.png';
-import Button from "../Button/Button";
 import SearchBar from "../SearchBar/SearchBar";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {Bars3Icon, UserIcon} from "@heroicons/react/20/solid/index.js";
 import {Link} from "react-router-dom";
+import {AuthContext} from "../../Context/index.js";
 
 function Navbar() {
-
+    const {signout, user} = useContext(AuthContext);
     const [isActive, setIsActive] = useState(false);
 
     const handleMenu = () => {
@@ -37,11 +37,19 @@ function Navbar() {
                                     <span className={"hover:text-primary smooth-animation"}>Inscription</span>
                                 </Link>
                             </li>
+                            {user ?
                             <li>
-                                <Link to={"/login"}>
-                                <span className={"hover:text-primary smooth-animation"}>Connexion</span>
+                                <Link onClick={() => signout()} to={"/login"}>
+                                    <span className={"hover:text-primary smooth-animation"}>Déconnexion</span>
                                 </Link>
                             </li>
+                            :
+                            <li>
+                                <Link to={"/login"}>
+                                    <span className={"hover:text-primary smooth-animation"}>Connexion</span>
+                                </Link>
+                            </li>
+                            }
                         </ul>
                     </div>
                     }
