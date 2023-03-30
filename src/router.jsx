@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import ErrorPage from "./Pages/ErrorPage/ErrorPage.jsx";
 import {rootLoader} from "./Loaders/rootLoader.js";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.jsx";
+import Listing from "./Pages/Listing/Listing.jsx";
 
 const HomePage = lazy(() => import("./Pages/HomePage/HomePage.jsx"));
 const LoginForm = lazy(() => import("./Form/LoginForm/LoginForm.jsx"));
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
             {
                 path: "login",
                 element: <LoginForm />,
+            },
+            {
+                path: "offices",
+                element: <Listing />,
             },
             {
                 path: "register",
