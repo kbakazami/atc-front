@@ -1,23 +1,19 @@
 import Navbar from './Components/Navbar/Navbar';
-import {Route, Routes} from "react-router-dom";
-import RegisterForm from "./Form/RegisterForm/RegisterForm.jsx";
-import LoginForm from "./Form/LoginForm/LoginForm";
-import Listing from "./Pages/Listing/Listing";
+import {Outlet} from "react-router-dom";
+import {Suspense} from "react";
+import AuthProvider from "./Components/AuthProvider/AuthProvider.jsx";
 
 function App() {
-
     return (
         <>
-            <header className={"border-b-2 border-tertiary"}>
-                <Navbar />
-            </header>
-            <main>
-                <Routes>
-                    <Route path={"/register"} element={<RegisterForm />} />
-                    <Route path={"/login"} element={<LoginForm />} />
-                    <Route path={"/offices"} element={<Listing />} />
-                </Routes>
-            </main>
+          <AuthProvider>
+              <Navbar />
+              <main>
+                  <Suspense fallback={<div>Loading...</div>}>
+                      <Outlet />
+                  </Suspense>
+              </main>
+          </AuthProvider>
         </>
     )
 }

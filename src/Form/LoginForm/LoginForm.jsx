@@ -1,16 +1,40 @@
-import {UserIcon, AtSymbolIcon, PhoneIcon, LockClosedIcon} from "@heroicons/react/24/outline";
+import {AtSymbolIcon, LockClosedIcon} from "@heroicons/react/24/outline";
 import { useForm } from "react-hook-form";
 import {GirlLocalisation, GuyPlanning} from "../../Components/SvgComponents/SvgComponents";
+import {Link, useNavigate} from "react-router-dom";
+import * as yup from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {AuthContext} from "../../Context/index.js";
+import {useContext} from "react";
 
 export default function LoginForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => {
+    const {auth} = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
+    const validationSchema = yup.object().shape({
+        email: yup.string().email("Veuillez saisir un email valide").required("Veuillez saisir un email"),
+        password: yup.string().required("Veuillez saisir un mot de passe"),
+    });
+
+    const initialValues = {
+        email: "",
+        password: "",
+    }
+
+    const {  handleSubmit, register, formState: { errors, isSubmitting }, setError, clearErrors } = useForm({
+        initialValues,
+        resolver: yupResolver(validationSchema),
+    });
+    const submit = handleSubmit(async(credentials) => {
         try {
-            console.log(data.email, data.password);
-        }catch (e) {
-            console.log(e);
+            clearErrors();
+            await auth(credentials);
+            navigate("/profile")
+        }catch (message) {
+            setError("generic", {type: "generic", message})
         }
-    };
+    });
 
     return(
         <div className={"relative my-10 px-4"}>
@@ -21,9 +45,9 @@ export default function LoginForm() {
                     <p className={"italic font-bold"}>
                         Aucun problème, vous pouvez en <span className={"text-primary"}>créer un !</span>
                     </p>
-                    <a href={"/"} className={"btn-primary smooth-animation"}>S'inscrire</a>
+                    <Link to={"/register"} className={"btn-primary smooth-animation"}>S'inscrire</Link>
                 </div>
-                <form id={"form-register"} className={"mt-8 flex flex-col gap-y-2.5"} onSubmit={handleSubmit(onSubmit)}>
+                <form id={"form-login"} className={"mt-8 flex flex-col gap-y-2.5"} onSubmit={submit}>
                     <legend>
                         <h2>Connexion</h2>
                         <p className={"italic font-bold mt-2.5 mb-2.5"}>
@@ -47,12 +71,12 @@ export default function LoginForm() {
                         </div>
                         {errors.password && <p className="errors-form">Veuillez saisir un mot de passe</p>}
                     </div>
+                    {errors.generic && <p className="errors-form">{errors.generic.message}</p>}
                     <button className={"btn-primary smooth-animation"} type="submit">
                         Se connecter
                     </button>
                     <a href={"/"} className={"link smooth-animation mt-2.5"}>Mot de passe oublié ?</a>
                 </form>
-
             </div>
             <GuyPlanning className={"w-64 xl:w-96 hidden lg:block absolute left-2 2xl:left-28 bottom-10 h-auto"}/>
         </div>
