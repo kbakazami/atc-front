@@ -30,7 +30,7 @@ function Navbar() {
                     <div className={"absolute border-2 border-primary rounded px-4 py-2 bg-white z-20"}>
                         <ul>
                             <li>
-                                <a className={"hover:text-primary smooth-animation"} href="#">Catalogue</a>
+                                <a className={"hover:text-primary smooth-animation"} href="/offices">Catalogue</a>
                             </li>
                             <li>
                                 <Link to={"/register"}>

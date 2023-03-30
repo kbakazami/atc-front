@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/24/outline";
 import {StarIcon} from "@heroicons/react/20/solid";
+import {Link} from "react-router-dom";
 
 export default function Card({slides, ...props}) {
 
@@ -23,37 +24,39 @@ export default function Card({slides, ...props}) {
 
     return (
         <div className={"font-bold font-oswald"}>
-            <div className={"relative"}>
-            <div className="absolute flex flex-row justify-between top-1/2 -translate-y-1/2 inset-x-5 z-10 text-secondary">
-                <button className={"btn-slider"} onClick={prevSlide}><ChevronLeftIcon className={"w-5 h-5"}/></button>
-                <button className={"btn-slider"} onClick={nextSlide}><ChevronRightIcon className={"w-5 h-5"}/></button>
-            </div>
-            {slides.map((slide, index) =>
-                (
-                    <div className={index === current ? 'slide active' : 'slide'} key={index}>
-                        {index === current && (
-                            <img src={slide} alt='travel image' className={"rounded"}/>
-                        )}
+            <Link to={`${props.id}`}>
+                <div className={"relative"}>
+                    <div className="absolute flex flex-row justify-between top-1/2 -translate-y-1/2 inset-x-5 z-10 text-secondary">
+                        <button className={"btn-slider"} onClick={prevSlide}><ChevronLeftIcon className={"w-5 h-5"}/></button>
+                        <button className={"btn-slider"} onClick={nextSlide}><ChevronRightIcon className={"w-5 h-5"}/></button>
                     </div>
-                )
-            )}
-                <div className={"flex flex-row gap-x-1 absolute bottom-4 left-1/2 -translate-x-1/2"}>
-                    {slides.map((i, index) => (
-                        <div key={index} className={index === current ? "indicator-slider active" : "indicator-slider"}/>
-                    ))}
+                    {slides.map((slide, index) =>
+                        (
+                            <div className={index === current ? 'slide active' : 'slide'} key={index}>
+                                {index === current && (
+                                    <img src={slide} alt='travel image' className={"rounded"}/>
+                                )}
+                            </div>
+                        )
+                    )}
+                    <div className={"flex flex-row gap-x-1 absolute bottom-4 left-1/2 -translate-x-1/2"}>
+                        {slides.map((i, index) => (
+                            <div key={index} className={index === current ? "indicator-slider active" : "indicator-slider"}/>
+                        ))}
+                    </div>
                 </div>
-            </div>
-            <div className={"flex flex-row justify-between text-primary"}>
-                <h4 className={"normal-case"}>{props.city}, {props.country}</h4>
-                <p className={"flex flex-row gap-x-1.5"}>
-                    <StarIcon className={"w-6 h-6"}/>
-                    {props.rate}
-                </p>
-            </div>
-            <div className={"flex flex-row gap-x-2"}>
-                <p>{props.disponibility}</p> |
-                <p>{props.price}€/jour</p>
-            </div>
+                <div className={"flex flex-row justify-between text-primary"}>
+                    <h4 className={"normal-case"}>{props.city}, {props.country}</h4>
+                    <p className={"flex flex-row gap-x-1.5"}>
+                        <StarIcon className={"w-6 h-6"}/>
+                        {props.rate}
+                    </p>
+                </div>
+                <div className={"flex flex-row gap-x-2"}>
+                    <p>{props.disponibility}</p> |
+                    <p>{props.price}€/jour</p>
+                </div>
+            </Link>
         </div>
     )
 }

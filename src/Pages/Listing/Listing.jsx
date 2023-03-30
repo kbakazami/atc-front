@@ -18,6 +18,7 @@ export default function Listing(){
             <div className={"flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"}>
                 {offices.map((item, index) => (
                     <Card key={index}
+                          id={item.id}
                           slides={item.image}
                           city={item.address.city}
                           country={item.address.country}
