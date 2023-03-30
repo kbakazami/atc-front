@@ -38,11 +38,18 @@ function Navbar() {
                                 </Link>
                             </li>
                             {user ?
-                            <li>
-                                <Link onClick={() => signout()} to={"/login"}>
-                                    <span className={"hover:text-primary smooth-animation"}>Déconnexion</span>
-                                </Link>
-                            </li>
+                                <>
+                                    <li>
+                                        <Link to={"/profile"}>
+                                            <span className={"hover:text-primary smooth-animation"}>Profil</span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link onClick={() => signout()} to={"/login"}>
+                                            <span className={"hover:text-primary smooth-animation"}>Déconnexion</span>
+                                        </Link>
+                                    </li>
+                                </>
                             :
                             <li>
                                 <Link to={"/login"}>

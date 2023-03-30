@@ -1,0 +1,7 @@
+.input-fake{
+    @apply flex items-center border-2 border-primary py-4 px-4 rounded mt-4
+}
+
+.icon-input{
+    @apply w-10 h-10 text-primary mr-2
+}
