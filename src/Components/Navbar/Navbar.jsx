@@ -14,7 +14,7 @@ function Navbar() {
     }
 
     return(
-        <header className={"border-b-2 border-b-tertiary"}>
+        <header className={"border-b-2 border-b-primary relative"}>
             <nav className={"flex justify-between items-center mx-auto container"}>
                <div>
                    <a href="/">
