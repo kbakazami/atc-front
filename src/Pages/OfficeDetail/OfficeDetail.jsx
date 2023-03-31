@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {StarIcon} from "@heroicons/react/20/solid";
 import Option from "../../Components/Option/Option";
 import {BookOpenIcon, ClockIcon, ComputerDesktopIcon, WifiIcon} from "@heroicons/react/24/outline";
 import {Kitchen, Mouse} from "../../Components/SvgComponents/SvgComponents";
 import BuyOnline from './Buy_Online.png';
-import {useForm} from "react-hook-form";
+import {set, useForm} from "react-hook-form";
 import {useLoaderData, useParams} from 'react-router-dom';
-import {getOneOffice} from "../../Services/office.service.js";
+import {getOneOffice, setOfficeReservation} from "../../Services/office.service.js";
+import {AuthContext} from "../../Context/index.js";
 
 export default function OfficeDetail()
 {
     const initialOfficeValue = useLoaderData();
     const [office, setOffice] = useState(initialOfficeValue);
+
+    const user = useContext(AuthContext);
 
     let pictures = office.images.split(',');
     // console.log(pictures.length);
@@ -21,26 +24,32 @@ export default function OfficeDetail()
         pictures = pictures.slice(1);
     }
     //
-    // const reviews = office.reviews.review;
+    const reviews = office.reviews;
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => {
-        // try {
-        //     if(OfficeService.getCurrentUser())
-        //     {
-        //         data.office_id = office.id;
-        //         // data.user_id = OfficeService.getCurrentUser();
-        //         data.user_id = 1;
-        //         console.log(data.date, data.duration, data.office_id, data.user_id);
-        //     }
-        //     else {
-        //         alert("Vous devez être connecté pour pouvoir réserver !");
-        //         window.location.assign("/register");
-        //     }
-        // }catch (e) {
-        //     console.log(e);
-        // }
-    };
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
+
+    const submit = handleSubmit(async(data) => {
+        try {
+            clearErrors();
+            data.office_id = office.id;
+            data.user_id = user.user.id;
+             await setOfficeReservation(data)
+        }catch (message) {
+            setError("generic", {type: "generic", message})
+        }
+    });
+
+    // const submit = data => {
+    //     try {
+    //             data.office_id = office.id;
+    //             data.user_id = user.user.id;
+    //
+    //             setOfficeReservation(data)
+    //     }catch (e) {
+    // alert("Vous devez être connecté pour pouvoir réserver !");
+    // window.location.assign("/register");
+    //     }
+    // };
 
     return (
         <div className={"container px-4 my-8"}>
@@ -50,7 +59,7 @@ export default function OfficeDetail()
                     <StarIcon className={"w-6 h-6"}/> {office.reviewAverage} •
                 </p>
                 <p className={"underline underline-offset-4 hover:text-primary text-secondary cursor-pointer smooth-animation"}>
-                    {/*{office.reviews.nb_review} commentaires*/}
+                    {office.reviewCount} commentaires
                 </p>
                 <p className={"flex flex-row text-primary"}>
                     • {office.city}, {office.country}
@@ -85,7 +94,7 @@ export default function OfficeDetail()
                     <div className={"flex flex-col sm:flex-row sm:items-center sm:justify-between mb-7 lg:mb-14"}>
                         <p className={"flex flex-col"}>
                             <span className={"text-primary font-bold italic"}>Proposé par {office.ownerLastName} {office.ownerFirstName}</span>
-                            {/*<span className={"font-oswald text-secondary"}>Membre depuis {office.user.created_at}</span>*/}
+                            {/*<span className={"font-oswald text-secondary"}>Membre depuis 2022</span>*/}
                         </p>
                         <button className={"btn-primary short mt-2 lg:mt-0"}>Contacter l'hôte</button>
                     </div>
@@ -121,37 +130,37 @@ export default function OfficeDetail()
                     <StarIcon className={"w-6 h-6"}/> {office.reviewAverage} •
                     </span>
                             <span className={"underline underline-offset-4 hover:text-primary text-secondary cursor-pointer smooth-animation"}>
-                {/*{office.reviews.nb_review} commentaires*/}
+                {office.reviews.nb_review} commentaires
                     </span>
                         </p>
                         <div className={"grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 mt-4"}>
-                            {/*{*/}
-                            {/*    reviews.map((item, index)=> (*/}
-                            {/*        <div key={index}>*/}
-                            {/*            <p className={"flex flex-row items-baseline gap-x-1 mb-2"}>*/}
-                            {/*                <span className={"text-primary font-bold italic"}>{item.userFirstName} {item.userLastName} - </span>*/}
-                            {/*                <span className={"font-oswald flex flex-row items-center"}>{item.note} <StarIcon className={"w-6 h-6"}/></span>*/}
-                            {/*            </p>*/}
-                            {/*            <p className={"border border-primary px-5 py-2.5 rounded"}>*/}
-                            {/*                <h4>{item.title}</h4>*/}
-                            {/*                {item.message}*/}
-                            {/*            </p>*/}
-                            {/*        </div>*/}
-                            {/*    ))*/}
-                            {/*}*/}
+                            {
+                                reviews.map((item, index)=> (
+                                    <div key={index}>
+                                        <p className={"flex flex-row items-baseline gap-x-1 mb-2"}>
+                                            <span className={"text-primary font-bold italic"}>{item.userFirstName} {item.userLastName} - </span>
+                                            <span className={"font-oswald flex flex-row items-center"}>{item.note} <StarIcon className={"w-6 h-6"}/></span>
+                                        </p>
+                                        <p className={"border border-primary px-5 py-2.5 rounded"}>
+                                            <span className={"text-xl font-bold font-oswald"}>{item.title}</span><br/>
+                                            {item.message}
+                                        </p>
+                                    </div>
+                                ))
+                            }
                         </div>
-                        {/*{*/}
-                        {/*    reviews.length > 4 && (*/}
-                        {/*        <button className={"btn-primary review mt-2.5"}>Voir plus de commentaires</button>*/}
-                        {/*    )*/}
-                        {/*}*/}
+                        {
+                            reviews.length > 4 && (
+                                <button className={"btn-primary review mt-2.5"}>Voir plus de commentaires</button>
+                            )
+                        }
                     </div>
                 </div>
                 <div className={"w-full lg:w-2/5 mt-5 lg:mt-0"}>
                     <h4>Réservation</h4>
                     <div className={"border border-primary w-full p-5 mt-5 rounded"}>
                         <h4 className={"normal-case"}>{office.price} € par jour</h4>
-                        <form id={"form-booking"} onSubmit={handleSubmit(onSubmit)}>
+                        <form id={"form-booking"} onSubmit={submit}>
                             <div className={"flex flex-col gap-y-2 mt-5"}>
                                 <div className={"relative"}>
                                     <input type="date" min={new Date().toISOString().split("T")[0]} {...register("date", {required: true})}/>
@@ -171,6 +180,7 @@ export default function OfficeDetail()
                                 </div>
                                 {errors.duration && <p className="errors-form">Veuillez sélectionner une durée</p>}
                             </div>
+                            {errors.generic && <p className="errors-form">{errors.generic.message}</p>}
                             <button className={"btn-primary smooth-animation mt-6"} type="submit">
                                 Réserver
                             </button>
@@ -178,7 +188,6 @@ export default function OfficeDetail()
                     </div>
                 </div>
             </section>
-            }
         </div>
     )
 }

@@ -36,15 +36,19 @@ const URL = 'http://localhost:8000/';
         }
     }
 
-    export async function setOfficeReservation(date, duration, office_id, user_id)
+    export async function setOfficeReservation(data)
     {
-        return axios.get(URL, {
-            date,
-            duration,
-            office_id,
-            user_id
-        }, {headers: {
-                "Content-Type" : "application/json",
-            }});
+        console.log(data)
+        const response = await axios.post(URL + "reservation/new", data);
+        const body = await response;
+        if(response && response.status === 200){
+            return body;
+        }else{
+            if(body){
+                throw body;
+            }else{
+                throw new Error("Something went wrong");
+            }
+        }
 }
 
