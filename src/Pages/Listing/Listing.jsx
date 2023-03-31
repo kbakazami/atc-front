@@ -1,10 +1,14 @@
 import Card from "../../Components/Card/Card";
-import OfficeService from '../../Services/office.service';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import CustomerPicture from './images/Customer.png';
+import {useLoaderData} from "react-router-dom";
+
 
 export default function Listing(){
-    const [offices, setOffices] = useState(OfficeService.getOffices());
+    const initialOffices = useLoaderData();
+    console.log(initialOffices)
+
+    const [offices, setOffices] = useState(initialOffices);
 
     return(
         <div className={"flex flex-col my-8 container"}>
@@ -19,12 +23,11 @@ export default function Listing(){
                 {offices.map((item, index) => (
                     <Card key={index}
                           id={item.id}
-                          slides={item.image}
-                          city={item.address.city}
-                          country={item.address.country}
-                          disponibility={item.duration}
+                          slides={item.images}
+                          city={item.city}
+                          country={item.country}
                           price={item.price}
-                          rate={item.review.average}
+                          rate={item.reviewAverage}
                     />
                 ))}
             </div>

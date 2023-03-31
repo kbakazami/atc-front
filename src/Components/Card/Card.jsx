@@ -24,12 +24,12 @@ export default function Card({slides, ...props}) {
 
     return (
         <div className={"font-bold font-oswald"}>
-            <Link to={`${props.id}`}>
                 <div className={"relative"}>
                     <div className="absolute flex flex-row justify-between top-1/2 -translate-y-1/2 inset-x-5 z-10 text-secondary">
                         <button className={"btn-slider"} onClick={prevSlide}><ChevronLeftIcon className={"w-5 h-5"}/></button>
                         <button className={"btn-slider"} onClick={nextSlide}><ChevronRightIcon className={"w-5 h-5"}/></button>
                     </div>
+
                     {slides.map((slide, index) =>
                         (
                             <div className={index === current ? 'slide active' : 'slide'} key={index}>
@@ -44,19 +44,21 @@ export default function Card({slides, ...props}) {
                             <div key={index} className={index === current ? "indicator-slider active" : "indicator-slider"}/>
                         ))}
                     </div>
+
                 </div>
                 <div className={"flex flex-row justify-between text-primary"}>
-                    <h4 className={"normal-case"}>{props.city}, {props.country}</h4>
+                    <Link to={`${props.id}`}>
+                        <h4 className={"normal-case hover:underline hover:underline-offset-4"}>{props.city}, {props.country}</h4>
+                    </Link>
                     <p className={"flex flex-row gap-x-1.5"}>
                         <StarIcon className={"w-6 h-6"}/>
                         {props.rate}
                     </p>
                 </div>
                 <div className={"flex flex-row gap-x-2"}>
-                    <p>{props.disponibility}</p> |
                     <p>{props.price}€/jour</p>
                 </div>
-            </Link>
+
         </div>
     )
 }
