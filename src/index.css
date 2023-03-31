@@ -82,6 +82,10 @@ h4 {
     @apply w-1/3 ml-auto py-2.5 text-base;
 }
 
+.btn-primary.homepage {
+    @apply w-auto inline-block px-20;
+}
+
 #form-office input,
 #form-office textarea,
 #form-office select{
