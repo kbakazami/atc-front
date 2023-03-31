@@ -17,8 +17,6 @@ function AuthProvider({ children }) {
         setUser(null);
     }
 
-    console.log(initialUser);
-
     return <AuthContext.Provider value={{
         user,
         auth,

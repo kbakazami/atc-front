@@ -1,42 +1,54 @@
-import axios from "axios";
+import axios, {all} from "axios";
 import {data} from './offices';
 import {dataOne} from "./office";
+import {getCurrentUser} from "./auth";
+import {useState} from "react";
 
 const URL = 'http://localhost:8000/';
 
-class OfficeService {
 
-    getOffices() {
-        return data;
-        // return axios.get(data)
-        //     .then(response => {
-        //         if(response.data) {
-        //             console.log(response);
-        //         }
-        //     })
-        //     .catch(error => console.log(error));
+    export async function getOffices() {
+
+        const response = await axios.get(URL + 'offices');
+        const body = await response;
+        if(response && response.status === 200){
+            return body.data;
+        }else{
+            if(body){
+                throw body;
+            }else{
+                throw new Error("Something went wrong");
+            }
+        }
     }
 
-    getOneOffice() {
-        return dataOne;
+    export async function getOneOffice(id) {
+        const response = await axios.get(URL + 'offices/' + id);
+        const body = await response;
+        if(response && response.status === 200){
+            return body.data;
+        }else{
+            if(body){
+                throw body;
+            }else{
+                throw new Error("Something went wrong");
+            }
+        }
     }
 
-    getCurrentUser()
+    export async function setOfficeReservation(data)
     {
-        return JSON.parse(localStorage.getItem('user'));
-    }
-
-    setOfficeReservation(date, duration, office_id, user_id)
-    {
-        return axios.get(URL, {
-            date,
-            duration,
-            office_id,
-            user_id
-        }, {headers: {
-                "Content-Type" : "application/json",
-            }})
-    }
+        console.log(data)
+        const response = await axios.post(URL + "reservation/new", data);
+        const body = await response;
+        if(response && response.status === 200){
+            return body;
+        }else{
+            if(body){
+                throw body;
+            }else{
+                throw new Error("Something went wrong");
+            }
+        }
 }
 
-export default new OfficeService();
