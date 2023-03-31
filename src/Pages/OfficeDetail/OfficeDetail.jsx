@@ -21,7 +21,7 @@ export default function OfficeDetail()
         pictures = pictures.slice(1);
     }
     //
-    // const reviews = office.reviews.review;
+    const reviews = office.reviews;
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
@@ -50,7 +50,7 @@ export default function OfficeDetail()
                     <StarIcon className={"w-6 h-6"}/> {office.reviewAverage} •
                 </p>
                 <p className={"underline underline-offset-4 hover:text-primary text-secondary cursor-pointer smooth-animation"}>
-                    {/*{office.reviews.nb_review} commentaires*/}
+                    {office.reviewCount} commentaires
                 </p>
                 <p className={"flex flex-row text-primary"}>
                     • {office.city}, {office.country}
@@ -85,7 +85,7 @@ export default function OfficeDetail()
                     <div className={"flex flex-col sm:flex-row sm:items-center sm:justify-between mb-7 lg:mb-14"}>
                         <p className={"flex flex-col"}>
                             <span className={"text-primary font-bold italic"}>Proposé par {office.ownerLastName} {office.ownerFirstName}</span>
-                            {/*<span className={"font-oswald text-secondary"}>Membre depuis {office.user.created_at}</span>*/}
+                            {/*<span className={"font-oswald text-secondary"}>Membre depuis 2022</span>*/}
                         </p>
                         <button className={"btn-primary short mt-2 lg:mt-0"}>Contacter l'hôte</button>
                     </div>
@@ -121,30 +121,30 @@ export default function OfficeDetail()
                     <StarIcon className={"w-6 h-6"}/> {office.reviewAverage} •
                     </span>
                             <span className={"underline underline-offset-4 hover:text-primary text-secondary cursor-pointer smooth-animation"}>
-                {/*{office.reviews.nb_review} commentaires*/}
+                {office.reviews.nb_review} commentaires
                     </span>
                         </p>
                         <div className={"grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 mt-4"}>
-                            {/*{*/}
-                            {/*    reviews.map((item, index)=> (*/}
-                            {/*        <div key={index}>*/}
-                            {/*            <p className={"flex flex-row items-baseline gap-x-1 mb-2"}>*/}
-                            {/*                <span className={"text-primary font-bold italic"}>{item.userFirstName} {item.userLastName} - </span>*/}
-                            {/*                <span className={"font-oswald flex flex-row items-center"}>{item.note} <StarIcon className={"w-6 h-6"}/></span>*/}
-                            {/*            </p>*/}
-                            {/*            <p className={"border border-primary px-5 py-2.5 rounded"}>*/}
-                            {/*                <h4>{item.title}</h4>*/}
-                            {/*                {item.message}*/}
-                            {/*            </p>*/}
-                            {/*        </div>*/}
-                            {/*    ))*/}
-                            {/*}*/}
+                            {
+                                reviews.map((item, index)=> (
+                                    <div key={index}>
+                                        <p className={"flex flex-row items-baseline gap-x-1 mb-2"}>
+                                            <span className={"text-primary font-bold italic"}>{item.userFirstName} {item.userLastName} - </span>
+                                            <span className={"font-oswald flex flex-row items-center"}>{item.note} <StarIcon className={"w-6 h-6"}/></span>
+                                        </p>
+                                        <p className={"border border-primary px-5 py-2.5 rounded"}>
+                                            <span className={"text-xl font-bold font-oswald"}>{item.title}</span><br/>
+                                            {item.message}
+                                        </p>
+                                    </div>
+                                ))
+                            }
                         </div>
-                        {/*{*/}
-                        {/*    reviews.length > 4 && (*/}
-                        {/*        <button className={"btn-primary review mt-2.5"}>Voir plus de commentaires</button>*/}
-                        {/*    )*/}
-                        {/*}*/}
+                        {
+                            reviews.length > 4 && (
+                                <button className={"btn-primary review mt-2.5"}>Voir plus de commentaires</button>
+                            )
+                        }
                     </div>
                 </div>
                 <div className={"w-full lg:w-2/5 mt-5 lg:mt-0"}>
@@ -178,7 +178,6 @@ export default function OfficeDetail()
                     </div>
                 </div>
             </section>
-            }
         </div>
     )
 }

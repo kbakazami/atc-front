@@ -1,7 +1,7 @@
 export default function Option ({isAvailable, ...props}) {
     return (
         <>
-            {isAvailable === 1 && (
+            {isAvailable === true && (
                 <div className={"flex flex-row items-center gap-x-1"}>
                     {props.children}
                     <span>{props.name}</span>
